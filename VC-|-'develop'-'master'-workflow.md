@@ -41,7 +41,7 @@ $ cd Trilinos/
 <a name="centralized_develop_workflow"/>
 # Simple Centralized workflow on the 'develop' branch
 
-Once on the local 'develop' branch which is tracking the remote 'origin/develop' branch, one simply uses the [Simple Centralized Workflow](https://github.com/trilinos/Trilinos/wiki/VC-|-Simple-Centralized-Workflow) using raw `git pull`, `git commit` and `git push` commands, i.e.:
+Once on the local 'develop' branch (which is tracking the remote 'origin/develop' branch), one can simply use the [Simple Centralized Workflow](https://github.com/trilinos/Trilinos/wiki/VC-|-Simple-Centralized-Workflow) using raw `git pull`, `git commit` and `git push` commands, i.e.:
 
 ```
 [(develop)]$ git pull                               # from origin/develop
