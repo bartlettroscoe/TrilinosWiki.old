@@ -53,7 +53,7 @@ The below process assumes:
 
 The process to transition local changes not on the 'develop' branch to the 'develop' branch are:
 
-**1) Checkout and update the local tracking 'develop' branch:**
+**1) Checkout and update the local tracking 'develop' branch**
 
 If you are not already on the local 'develop' branch, this step is described [above](https://github.com/trilinos/Trilinos/wiki/VC-%7C-'develop'-'master'-workflow#get_on_local_develop).
 
@@ -64,13 +64,13 @@ Next, pull to update 'develop'.
 [(develop)]$
 ```
 
-**2) Merge changes from the local 'master' branch to the local 'develop' branch:**
+**2) Merge changes from the local 'master' branch to the local 'develop' branch**
 
 ```
 [(develop)]$ git merge master   # resolve any merge conflicts
 ```
 
-**3) Test and push changes
+**3) Test and push changes**
 
 At this point, the commits merged from the local 'master' branch should be tested prior to pushing to the remote github 'develop' branch.  This can all be done using the checkin-test.py script. The necessary manual commands are:
 
