@@ -36,20 +36,20 @@ $ cd Trilinos/
 [(develop)]$ 
 ```
 
-Once on the local 'develop' branch which is tracking the remote 'origin/develop' branch, one simply uses the [Simple Centralized Workflow](https://github.com/trilinos/Trilinos/wiki/VC-|-Simple-Centralized-Workflow) using raw `git pull`, `git commit` and `git push` commands. The only difference is these commands are performed on the 'develop' rather than 'master' branch.
+Once on the local 'develop' branch which is tracking the remote 'origin/develop' branch, simply use standard `git pull`, `git commit` and `git push` commands. The only difference is these commands are performed while on the 'develop' rather than 'master' branch.
 
 NOTE: The checkin-test.py script can be used on the 'develop' branch to robustly push committed modifications, just as it could be used previously for the 'master' branch.
 
 <a name="move_to_develop"/>
 # Move local changes to the 'develop' branch
 
-The below process applies only to situations where a Trilinos developer has made changes (and perhaps local commits) to the local git repo's 'master' branch and needs to transfer the changes to their local 'develop' branch, where they can be pushed to the github 'develop' branch. This will be common only during the initial transition to the develop-master workflow.
+The below process applies only to situations where a Trilinos developer has made changes to the local git repo's 'master' branch and needs to transfer the changes to their local 'develop' branch, where they can be pushed to the github 'develop' branch. This will be common only during the initial transition to the develop-master workflow.
 
 Before getting started, Trilinos developers can optionally set up their local account to use the git usability scripts git-prompt.sh and git-completion.bash and enable git `rerere` as described [here](https://github.com/trilinos/Trilinos/wiki/VC-%7C-Initial-Git-Setup).  The shell scripts will make it obvious what local branch a developer is on and git `rerere` will help with the rebasing and merging commands required to transition local commits.
 
 The below process assumes:
-* Changes to be moved to the develop branch have been committed to the local master branch, but not pushed.
-* All of the local commits to master are to be moved to develop.
+* Changes to be moved to the 'develop' branch have been committed to the local 'master' branch, but not pushed.
+* All of the local commits to 'master' are to be moved to 'develop'.
 
 The process to transition local changes not on the 'develop' branch to the 'develop' branch are:
 
