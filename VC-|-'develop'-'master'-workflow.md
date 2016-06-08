@@ -1,8 +1,7 @@
 **Table of Contents:**
 * [Overview](#overview)
-* [Get on a local 'develop' tracking branch](#get_on_local_develop)
-* [Simple Centralized workflow on the 'develop' branch](#centralized_develop_workflow)
-* [Transitioning local changes to the 'develop' branch](#transition_to_develop)
+* [**Transitioning to a develop-master workflow**](#transition_develop_master)
+* [Moving local changes to the 'develop' branch](#move_to_develop)
 
 <a name="overview"/>
 # Overview
@@ -13,20 +12,14 @@ The Trilinos project uses a long-lived branch called 'develop' to conduct basic 
 
 The motivation for the usage of a 'develop' branch and the full set of mechanics and implications are described in [Addition of a 'develop' branch](https://docs.google.com/document/d/1uVQYI2cmNx09fDkHDA136yqDTqayhxqfvjFiuUue7wo/edit#heading=h.u2ougk1wk7ph).
 
-For those developers more comfortable with git, all one needs to do is:
-
-* Get on a local 'develop' branch which is tracking 'origin/develop' (see [details](#get_on_local_develop))
-* Pull from, make changes on, and push to the 'develop' branch instead of the 'master' branch (see [details](centralized_develop_workflow))
-* If changes are accidentally made to the local 'master' branch, then merge the local 'master' branch to the local 'develop' branch and reset the local 'master' branch to 'origin/master' (see [details](transition_to_develop)).
-
-If a developer understands the above, then they don't need to read any more on this page.  However, if a developer is not clear what is required, then the rest of this page contains the exact detailed information that an typical Trilinos developer needs to know in order to transition to and use the 'develop' branch as well as make commits on the local 'develop' branch and push to the shared 'develop' branch.  Performing these tasks does not require advanced usage of git. All required commands and steps are described in detail below.
-
 (NOTE: The "bug-fix" workflow elements shown in the above figure are not described below but are described in great detail the above reference.  If things go well, then these "bug fix" commits should almost never be needed.  But in the rare cases these "bug-fix" commits or revert commits are needed/desired, then more experienced Trilinos git developers can help make those changes.)
 
-<a name="get_on_local_develop"/>
-# Get on a local 'develop' tracking branch
+<a name="transition_develop_master"/>
+# Transitioning to a develop-master workflow
 
-Modifying the workflow from the [Simple Centralized Workflow](https://github.com/trilinos/Trilinos/wiki/VC-|-Simple-Centralized-Workflow) to use the 'develop' branch instead of the 'master' branch is easy.  If the local repo is clean (i.e. no local modifications or untracked files), then one just needs to get on a local 'develop' tracking branch.  If the local 'develop' tracking branch has not already been created, then create it using:
+For developers accustomed to the previous single branch Trilinos development model (the [Simple Centralized Workflow](https://github.com/trilinos/Trilinos/wiki/VC-|-Simple-Centralized-Workflow)), the transition to the develop-master workflow is not complicated. In essence, you make changes to the develop branch, rather than the master branch. A few extra details, and commands for doing this are below. These commands will be needed every time the Trilinos repository is cloned.
+
+If the local repo is clean (i.e. no local modifications or untracked files), then one just needs to get on a local 'develop' tracking branch.  If the local 'develop' tracking branch has not already been created, then create it using:
 
 ```
 $ cd Trilinos/
@@ -43,82 +36,51 @@ $ cd Trilinos/
 [(develop)]$ 
 ```
 
-<a name="centralized_develop_workflow"/>
-# Simple Centralized workflow on the 'develop' branch
+Once on the local 'develop' branch which is tracking the remote 'origin/develop' branch, simply use standard `git pull`, `git commit` and `git push` commands. The only difference is these commands are performed while on the 'develop' rather than 'master' branch.
 
-Once on the local 'develop' branch which is tracking the remote 'origin/develop' branch, one simply uses the [Simple Centralized Workflow](https://github.com/trilinos/Trilinos/wiki/VC-|-Simple-Centralized-Workflow) using raw `git pull`, `git commit` and `git push` commands, i.e.:
+NOTE: The checkin-test.py script can be used on the 'develop' branch to robustly push committed modifications, just as it could be used previously for the 'master' branch.
 
-```
-[(develop)]$ git pull                               # from origin/develop
-... Make changes (e.g. using emacs or vi) ...
-[(develop)]$ git commit -a
-[(develop)]$ git status
-[(develop)]$ git log --name-status @{u}..HEAD       # review changes
-[(develop)]$ git pull                               # from origin/develop
-... Test changes (e.g. using checkin-test.py) ...
-[(develop)]$ git pull --rebase                      # from origin/develop
-[(develop)]$ git push                               # to origin/develop
-```
-NOTE: The checkin-test.py script performs the steps from the second `git pull` after the local modifications are committed to the final `git push` robustly in a single command.
+<a name="move_to_develop"/>
+# Move local changes to the 'develop' branch
 
-<a name="transition_to_develop"/>
-# Transitioning local changes to the 'develop' branch
+The below process applies only to situations where a Trilinos developer has made changes to the local git repo's 'master' branch and needs to transfer the changes to their local 'develop' branch, where they can be pushed to the github 'develop' branch. This will be common only during the initial transition to the develop-master workflow.
 
-The below process applies only to situations where a Trilinos developer has made changes (and perhaps local commits) to the local git repo's 'master' branch and needs to transfer the changes to their local 'develop' branch, where they can be pushed to the github 'develop' branch.
+Before getting started, Trilinos developers can optionally set up their local account to use the git usability scripts git-prompt.sh and git-completion.bash and enable git `rerere` as described [here](https://github.com/trilinos/Trilinos/wiki/VC-%7C-Initial-Git-Setup).  The shell scripts will make it obvious what local branch a developer is on and git `rerere` will help with the rebasing and merging commands required to transition local commits.
 
-NOTE: These instructions assume that the Trilinos developer is using the [simple centralized workflow on the local 'master' branch](https://github.com/trilinos/Trilinos/wiki/VC-%7C-Simple-Centralized-Workflow) and has been directly pushing their locally created commits directly to the github 'master' branch.  If a more complex workflow is being used (such as using a [shared topic branch](https://docs.google.com/document/d/1uVQYI2cmNx09fDkHDA136yqDTqayhxqfvjFiuUue7wo/edit#heading=h.eezqw2tso48u), or other types of git workflows), then the instructions need to be customized for the specific situation.
-
-Before getting started, every Trilinos developer should set up their local account to use the git usability scripts git-prompt.sh and git-completion.bash and enable git `rerere` as described [here](https://github.com/trilinos/Trilinos/wiki/VC-%7C-Initial-Git-Setup).  The shell scripts will make it obvious what local branch a developer is on and git `rerere` will help with the rebasing and merging commands required to transition local commits.
+The below process assumes:
+* Changes to be moved to the 'develop' branch have been committed to the local 'master' branch, but not pushed.
+* All of the local commits to 'master' are to be moved to 'develop'.
 
 The process to transition local changes not on the 'develop' branch to the 'develop' branch are:
 
-**1) Commit any desired uncommitted changes:**
+**1) Checkout and update the local tracking 'develop' branch**
+
+If you are not already on the local 'develop' branch, this step is described [above](https://github.com/trilinos/Trilinos/wiki/VC-%7C-'develop'-'master'-workflow#get_on_local_develop).
+
+Next, pull to update 'develop'.
 
 ```
-[(master)]$ git add <modified-or-new-files>
-[(master)]$ git commit
-```
-
-If there are any remaining changes to tracked files that one does not want to keep, then they can be reverted using:
-
-```
-[(master)]$ git checkout HEAD -- .
-```
-
-If there are untracked files that one does not want to keep, then just delete them manually or do:
-
-```
-[(master)]$ git clean -xdf
-```
-
-or add ignores for them.
-
-**2) Checkout the local tracking 'develop' branch:**
-
-This step is already described [above](https://github.com/trilinos/Trilinos/wiki/VC-%7C-'develop'-'master'-workflow#get_on_local_develop).
-That is, either one creates a new local tracking 'develop' branch from scratch (if it has not already been created) with:
-
-```
-[ (master)]$ git fetch
-[ (master)]$ git checkout --track origin/develop
-[(develop)]$
-```
-
-or one checks out the previously created 'develop' tracking branch and updates it with:
-
-```
-[ (master)]$ git checkout develop
 [(develop)]$ git pull   # from origin/develop
 [(develop)]$
 ```
 
-**3) Merge changes from the local 'master' branch to the local 'develop' branch:**
+**2) Merge changes from the local 'master' branch to the local 'develop' branch**
 
 ```
 [(develop)]$ git merge master   # resolve any merge conflicts
 ```
 
-At this point, the merged in commits from the local 'master' branch are safe and will get pushed to the remote github 'develop' branch.  These commits will be rebased before the final push as described [above](#centralized_develop_workflow).  (NOTE: If git rerere is enabled, then any merge conflicts that have already been resolved will be resolved automatically on the final rebase before the final push.)
+**3) Test and push changes**
+
+At this point, the commits merged from the local 'master' branch should be tested prior to pushing to the remote github 'develop' branch.  This can all be done using the checkin-test.py script. The necessary manual commands are:
+
+```
+... Test changes ...
+[(develop)]$ git pull --rebase                      # from origin/develop
+[(develop)]$ git push                               # to origin/develop
+```
+
+NOTE: If git rerere is enabled, then any merge conflicts that have already been resolved will be resolved automatically on the final rebase before the final push.
 
 **4) Reset the local 'master' branch**
 
